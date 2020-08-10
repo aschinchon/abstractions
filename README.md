@@ -1,4 +1,4 @@
-# Reaction-Difussion
+# Abstractions
 
 An R experiment to create images inspired by Physarum model. Examples:
 
