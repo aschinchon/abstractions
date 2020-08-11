@@ -23,7 +23,6 @@ opt <-  theme(panel.border = element_rect(color="black", fill = NA),
 # Framework environment
 imageW <- 800 # image width (pixels)
 imageH <- 800 # image heigth (pixels)
-p <- 0.15 # Population as percent of image area (3% - 15%)
 decayT <- 0.1 # Trail-map chemoattractant diffusion decay factor
 
 # Agent
@@ -35,7 +34,7 @@ SS <- 1 # Step size—how far agent moves per step (pixels)
 depT <- 15 # Chemoattractant deposition per step
 
 iters <- 2000 # Number if iterations
-
+agents <- 1000 # Number of agents
 
 ######################################################################
 # Initialization of environment layer and particle positions
@@ -52,7 +51,7 @@ for (i in 1:nrow(envM)){
 }
 
 # Place agents in a circle
-tibble(h = seq(from = 0, to = 2*pi, length.out = 1000)) %>% 
+tibble(h = seq(from = 0, to = 2*pi, length.out = agents)) %>% 
   mutate(x = (imageH/20)*cos(h)+imageH/2,
          y = (imageH/20)*sin(h)+imageH/2,
          h = jitter(h+pi, amount = 0) ) -> parF
