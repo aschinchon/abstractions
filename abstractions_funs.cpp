@@ -2,11 +2,9 @@
 // [[Rcpp::depends(RcppArmadillo)]]
 
 
-// To perform Blurring, I have to extract a 3 x 3 submatrix around each element 
-// of it. This function allows to do convolutions on the edge elements of the 
-// matrix since it extracts elements from the opposite rows or columns to avoid 
-// losing dimensionality after convolution
-
+// This function allows to do convolutions on the edge elements of the 
+// matrix since it extracts elements from the opposite rows or columns 
+// to avoid losing dimensionality after convolution
 int get_index(int M, int i)
 {
   if (i < 0)
@@ -16,6 +14,7 @@ int get_index(int M, int i)
   return i;
 }
 
+// Sensor stage
 Rcpp::DataFrame sensor (arma::mat envM,
                         Rcpp::DataFrame parF,
                         double FL,
@@ -88,7 +87,7 @@ Rcpp::DataFrame sensor (arma::mat envM,
   
 }
 
-// [[Rcpp::export]]
+// Motor stage
 Rcpp::DataFrame motor (Rcpp::DataFrame parF,
                        int m,
                        int n,
@@ -120,6 +119,7 @@ Rcpp::DataFrame motor (Rcpp::DataFrame parF,
   return dest;
 }
 
+// Deposition
 arma::mat deposition (Rcpp::DataFrame parF,
                       double depT,
                       arma::mat envM) {
@@ -138,7 +138,7 @@ arma::mat deposition (Rcpp::DataFrame parF,
 return envM;
 }
 
-
+// Evaporation
 arma::mat evaporate (arma::mat source,
                      double factor) {
   
@@ -155,33 +155,7 @@ arma::mat evaporate (arma::mat source,
   return dest;
 };
 
-
-arma::mat scale(arma::mat matrix){
-
-  int width  = matrix.n_rows;
-  int height = matrix.n_cols;
-
-  arma::mat dest(width, height);
-
-  double maximum = 0;
-  for(int x = 0; x < width; ++x){
-    for(int y = 0; y < height; ++y){
-      dest(x, y) = matrix(x,y);
-      maximum = std::max(matrix(x,y), maximum);
-    }
-  }
-
-    if (maximum > 0){
-      for(int x = 0; x < width; ++x){
-        for(int y = 0; y < height; ++y){
-         dest(x, y) = matrix(x,y)/maximum;
-        }
-      }
-    }
-    return dest;
-};
-
-
+// Gather all into a funtion called physarum
 // [[Rcpp::export]]
 arma::mat physarum(arma::mat envM,
                  Rcpp::DataFrame parF,

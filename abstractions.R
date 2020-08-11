@@ -2,9 +2,9 @@
 # Load in libraries
 ######################################################################
 library(Rcpp) # to iterate fast
-library(tidyverse) # to plot
+library(tidyverse) # to plot and transform data
 library(colourlovers) # to color drawings with nice colors
-library(reshape2)
+library(reshape2) # to convert matrix into data frames
 
 # Import C++ code
 sourceCpp('abstractions_funs.cpp')
@@ -41,9 +41,9 @@ iters <- 2000 # Number if iterations
 # Initialization of environment layer and particle positions
 ######################################################################
 # Environment matrix, initialized with zeros
-#envM <- matrix(runif(imageH*imageW) , imageH, imageW)
-#este es bueno
 envM <- matrix(0 , imageH, imageW)
+
+# Create a magnetic disc
 for (i in 1:nrow(envM)){
   for (j in 1:ncol(envM)){
     if(sqrt((i-imageH/2)^2+(j-imageH/2)^2)>imageH/8 &
@@ -51,25 +51,24 @@ for (i in 1:nrow(envM)){
   }
 }
 
-#este es bueno
+# Place agents in a circle
 tibble(h = seq(from = 0, to = 2*pi, length.out = 1000)) %>% 
   mutate(x = (imageH/20)*cos(h)+imageH/2,
          y = (imageH/20)*sin(h)+imageH/2,
          h = jitter(h+pi, amount = 0) ) -> parF
 
 
-
+# Make agents dance
 envM <- physarum(envM, parF, decayT, FL, FR, 
                  RA, SO, SS, depT, iters)
 
+# Transform resulting environment matrix into data frame
 df <- melt(envM)
 colnames(df) <- c("x","y","v") # to name columns
 
-# Choose a top palette from colourlovers
-
+# Pick a top palette from colourlovers
 palette <- sample(clpalettes('top'), 1)[[1]] 
 colors <- palette %>% swatch %>% .[[1]]
-
 
 # Do the plot
 ggplot(data = df %>% filter(v>0), aes(x = x, y = y, fill = log(v))) + 
@@ -80,3 +79,7 @@ ggplot(data = df %>% filter(v>0), aes(x = x, y = y, fill = log(v))) +
   scale_x_continuous(expand = c(0,0)) +
   opt -> plot
 
+plot
+
+# Do you like it? Save it!
+ggsave("choose_a_name.png", plot, width  = 3, height = 3)
