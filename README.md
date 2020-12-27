@@ -22,7 +22,7 @@ install.packages("colourlovers")
 
 ## More info
 
-+ A complete explanation of the experiment can be found [at fronkonstin](https://fronkonstin.com/)
++ A complete explanation of the experiment can be found [at fronkonstin](https://fronkonstin.com/2020/08/11/abstractions/)
 
 ## Inspiration
 
