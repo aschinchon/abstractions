@@ -1,6 +1,6 @@
 # Abstractions
 
-An R experiment to create images inspired by Physarum model. Examples:
+An R experiment to create images inspired by Physarum model. Some examples:
 
 <img src="https://fronkonstin.com/wp-content/uploads/2020/08/prueba126.png" width=40%></img>
 <img src="https://fronkonstin.com/wp-content/uploads/2020/08/orwlhgkn.png" width=40%></img>
