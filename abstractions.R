@@ -70,7 +70,7 @@ palette <- sample(clpalettes('top'), 1)[[1]]
 colors <- palette %>% swatch %>% .[[1]]
 
 # Do the plot
-ggplot(data = df %>% filter(v>0), aes(x = x, y = y, fill = log(v))) + 
+ggplot(data = df %>% filter(value>0), aes(x = Var1, y = Var2, fill = log(value))) + 
   geom_raster(interpolate = TRUE) +
   coord_equal() +
   scale_fill_gradientn(colours = colors) +
