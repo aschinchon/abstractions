@@ -36,14 +36,14 @@ Rcpp::DataFrame sensor (arma::mat envM,
   for(int i = 0; i < npart; i++) {
     
     // Sensory stage
-    int Fx = get_index(n, (int)round(x[i] + SO * cos(h[i])));
-    int Fy = get_index(m, (int)round(y[i] + SO * sin(h[i])));
+    int Fx = get_index(m, (int)round(x[i] + SO * cos(h[i])));
+    int Fy = get_index(n, (int)round(y[i] + SO * sin(h[i])));
     
-    int FLx = get_index(n, (int)round(x[i] + SO * (cos(h[i] + FL))));
-    int FLy = get_index(m, (int)round(y[i] + SO * (sin(h[i] + FL))));
+    int FLx = get_index(m, (int)round(x[i] + SO * (cos(h[i] + FL))));
+    int FLy = get_index(n, (int)round(y[i] + SO * (sin(h[i] + FL))));
     
-    int FRx = get_index(n, (int)round(x[i] + SO * (cos(h[i] + FR))));
-    int FRy = get_index(m, (int)round(y[i] + SO * (sin(h[i] + FR))));
+    int FRx = get_index(m, (int)round(x[i] + SO * (cos(h[i] + FR))));
+    int FRy = get_index(n, (int)round(y[i] + SO * (sin(h[i] + FR))));
     
     double F  = envM(Fx, Fy);
     double FL = envM(FLx, FLy);
@@ -89,8 +89,8 @@ Rcpp::DataFrame sensor (arma::mat envM,
 
 // Motor stage
 Rcpp::DataFrame motor (Rcpp::DataFrame parF,
-                       int m,
                        int n,
+                       int m,
                        double SS){
   
   int npart = parF.nrows();

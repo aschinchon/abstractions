@@ -22,7 +22,7 @@ opt <-  theme(panel.border = element_rect(color="black", fill = NA),
 ######################################################################
 # Framework environment
 imageW <- 800 # image width (pixels)
-imageH <- 800 # image heigth (pixels)
+imageH <- 600 # image heigth (pixels)
 decayT <- 0.1 # Trail-map chemoattractant diffusion decay factor
 
 # Agent
