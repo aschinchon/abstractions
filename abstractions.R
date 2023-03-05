@@ -3,7 +3,6 @@
 ######################################################################
 library(Rcpp) # to iterate fast
 library(tidyverse) # to plot and transform data
-library(colourlovers) # to color drawings with nice colors
 library(reshape2) # to convert matrix into data frames
 
 # Import C++ code
@@ -66,8 +65,10 @@ df <- melt(envM)
 colnames(df) <- c("x","y","v") # to name columns
 
 # Pick a top palette from colourlovers
-palette <- sample(clpalettes('top'), 1)[[1]] 
-colors <- palette %>% swatch %>% .[[1]]
+url <- "http://www.colourlovers.com/api/palettes/top&format=json"
+out <- rjson::fromJSON(readLines(url)[1], simplify = TRUE)
+palette <- data.table::rbindlist(out)
+colors <- palette %>% filter(id == sample(palette$id,1)) %>% select(colors) %>% pull %>% paste0("#", .)
 
 # Do the plot
 ggplot(data = df %>% filter(v>0), aes(x = x, y = y, fill = log(v))) + 
